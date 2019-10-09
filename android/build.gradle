@@ -1,0 +1,65 @@
+group 'com.example.im_plugin'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.2.71'
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 28
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+    defaultConfig {
+        ndk {
+            //设置支持的SO库架构
+            abiFilters "armeabi-v7a", "x86","arm64-v8a","x86_64"
+        }
+        minSdkVersion 16
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    // 添加依赖。注意，版本号必须一致。
+    // 基础功能 (必需)
+    implementation 'com.netease.nimlib:basesdk:6.9.0'
+    // 音视频和互动白板服务需要
+    implementation 'com.netease.nimlib:nrtc:6.9.0'
+    // 音视频需要
+    implementation 'com.netease.nimlib:avchat:6.9.0'
+    // 聊天室需要
+    implementation 'com.netease.nimlib:chatroom:6.9.0'
+    // 互动白板服务需要
+    implementation 'com.netease.nimlib:rts:6.9.0'
+    // 全文检索服务需要
+    implementation 'com.netease.nimlib:lucene:6.9.0'
+    // 小米等厂商推送需要
+    implementation 'com.netease.nimlib:push:6.9.0'
+
+}
